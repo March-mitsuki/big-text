@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useBigTextStore } from "./context";
 import { Box } from "@radix-ui/themes";
+import { exitFullscreen } from "../../utils/fullscreen";
 
 export function View() {
   const ctx = useBigTextStore();
@@ -20,14 +21,17 @@ export function View() {
       console.log("clickCount", clickCount);
 
       if (clickCount === 3) {
-        ctx.setMode("edit");
+        setTimeout(() => {
+          exitFullscreen();
+          ctx.setMode("edit");
+        }, 100);
       }
     };
 
-    window.addEventListener("pointerdown", listener);
+    window.addEventListener("pointerup", listener);
 
     return () => {
-      window.removeEventListener("pointerdown", listener);
+      window.removeEventListener("pointerup", listener);
     };
   }, []);
 
@@ -39,13 +43,22 @@ export function View() {
 }
 
 const fitSingleLineToBoxHeight = (elem: HTMLElement, startFontSize: number, targetHeight: number) => {
-  elem.style.fontSize = `${startFontSize}px`;
-  const fontHeight = elem.getBoundingClientRect().height;
-  const newFontSize = (startFontSize * targetHeight) / fontHeight;
-  elem.style.fontSize = `${newFontSize}px`;
+  let fontSize = startFontSize;
 
-  return newFontSize;
+  while (true) {
+    elem.style.fontSize = `${fontSize}px`;
+    const fontHeight = elem.getBoundingClientRect().height;
+    if (fontHeight < targetHeight) {
+      fontSize *= 1.1;
+    } else {
+      fontSize *= 0.9;
+      break;
+    }
+  }
+
+  return fontSize;
 };
+
 function ScrollView() {
   const ctx = useBigTextStore();
   const boxRef = useRef<HTMLDivElement>(null);
@@ -116,9 +129,9 @@ function ScrollView() {
 
 /**
  * 用二分法把元素字体调到“尽量大且不溢出容器”的值
- * @param {HTMLElement} el  文字元素
- * @param {HTMLElement} container 容器元素（高度为目标高度）
- * @param {object} opts 选项
+ * @param el 文字元素
+ * @param container 容器元素（高度为目标高度）
+ * @param opts 选项
  */
 function fitTextToContainer(
   el: HTMLElement,
@@ -145,7 +158,7 @@ function fitTextToContainer(
 
     // 用 scrollHeight 测实际内容高度（包含换行）
     const h = el.scrollHeight;
-    onStep && onStep({ mid, h, targetH });
+    onStep?.({ mid, h, targetH });
 
     if (h <= targetH - tolerance) {
       best = mid; // 可以更大
@@ -164,12 +177,10 @@ function StaticView() {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const startFontSize = 100;
-    const targetHeight = window.innerHeight;
     const fitSingleLineToHeight = async () => {
       await document.fonts?.ready;
       if (!contentRef.current || !boxRef.current) return;
-      fitTextToContainer(contentRef.current, boxRef.current);
+      fitTextToContainer(contentRef.current, boxRef.current, {});
     };
 
     fitSingleLineToHeight();

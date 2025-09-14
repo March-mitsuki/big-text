@@ -54,15 +54,15 @@ function I18nMenu() {
         </IconButton>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
-        <DropdownMenu.Item>
-          <Link href="/">English</Link>
-        </DropdownMenu.Item>
-        <DropdownMenu.Item>
-          <Link href="/zh">中文</Link>
-        </DropdownMenu.Item>
-        <DropdownMenu.Item>
-          <Link href="/ja">日本語</Link>
-        </DropdownMenu.Item>
+        <Link href="/">
+          <DropdownMenu.Item>English</DropdownMenu.Item>
+        </Link>
+        <Link href="/zh">
+          <DropdownMenu.Item>中文</DropdownMenu.Item>
+        </Link>
+        <Link href="/ja">
+          <DropdownMenu.Item>日本語</DropdownMenu.Item>
+        </Link>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );

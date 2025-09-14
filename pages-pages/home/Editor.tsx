@@ -1,5 +1,6 @@
 import { Button, Flex, Switch, Text, TextField } from "@radix-ui/themes";
 import { useBigTextStore } from "./context";
+import { enterFullscreen } from "../../utils/fullscreen";
 
 export type EditorProps = {
   locale: string;
@@ -18,6 +19,10 @@ export function Editor({ locale }: EditorProps) {
         <Field label="Background Color" value={ctx.bgColor} onChange={ctx.setBgColor} />
         <Field label="Text Color" value={ctx.textColor} onChange={ctx.setTextColor} />
       </Flex>
+
+      {/* <video id="test-video" controls width={320} playsInline>
+        <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4" />
+      </video> */}
 
       <Flex
         style={{
@@ -53,7 +58,10 @@ export function Editor({ locale }: EditorProps) {
           <Text>Static</Text>
         </Flex>
         <Button
-          onClick={() => {
+          onClick={async () => {
+            // const err = await enterFullscreen(document.getElementById("test-video")!);
+            // setErr(err);
+            enterFullscreen(document.documentElement);
             ctx.setMode("view");
           }}
         >
