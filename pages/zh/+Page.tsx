@@ -1,5 +1,5 @@
 import HomePage from "../../pages-pages/home/page";
 
 export default function Page() {
-  return <HomePage locale="en" />;
+  return <HomePage locale="zh" />;
 }
