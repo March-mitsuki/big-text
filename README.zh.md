@@ -1,3 +1,6 @@
+# 其他语言
+[中文](./README.zh.md) | [日本語](./README.ja.md)
+
 # Big Text
 一个在网页上实现**真全屏**滚动显示信息的App。
 
