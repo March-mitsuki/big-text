@@ -9,7 +9,7 @@
   "workers_dev": false,
   "routes": [
     {
-      "pattern": "mitsuki.app",
+      "pattern": "big-text.mitsuki.app",
       "custom_domain": true,
     },
   ],
