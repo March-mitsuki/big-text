@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { bigTextCanvas } from "./canvas";
 import { waitUntil } from "../../utils/wait";
 import { trans } from "../../i18n";
+import { CheckCircledIcon } from "@radix-ui/react-icons";
 
 export type EditorProps = {
   locale: string;
@@ -100,6 +101,7 @@ export function Editor({ locale }: EditorProps) {
 
 function ShareBtn({ locale }: EditorProps) {
   const [currentUrl, setCurrentUrl] = useState("");
+  const [isLinkCopied, setIsLinkCopied] = useState(false);
 
   useEffect(() => {
     setCurrentUrl(window.location.href);
@@ -134,9 +136,25 @@ function ShareBtn({ locale }: EditorProps) {
               {trans("close", locale)}
             </Button>
           </Dialog.Close>
-          <Dialog.Close>
-            <Button>{trans("copyLink", locale)}</Button>
-          </Dialog.Close>
+          <Button
+            disabled={!currentUrl || isLinkCopied}
+            onClick={() => {
+              navigator.clipboard.writeText(currentUrl);
+              setIsLinkCopied(true);
+              setTimeout(() => {
+                setIsLinkCopied(false);
+              }, 2000);
+            }}
+          >
+            {isLinkCopied ? (
+              <>
+                <CheckCircledIcon />
+                {trans("linkCopied", locale)}
+              </>
+            ) : (
+              trans("copyLink", locale)
+            )}
+          </Button>
         </Flex>
       </Dialog.Content>
     </Dialog.Root>

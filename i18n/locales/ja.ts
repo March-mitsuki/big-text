@@ -23,4 +23,5 @@ export const textJA: I18nText = {
   youCanShareLink: "下のリンクを共有して、他の人に同じページを開いてもらうことができます",
   close: "閉じる",
   copyLink: "リンクをコピー",
+  linkCopied: "コピーしました",
 };

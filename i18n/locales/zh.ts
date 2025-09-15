@@ -22,4 +22,5 @@ export const textZH: I18nText = {
   youCanShareLink: "你可以分享下面的链接让别人打开同样的页面",
   close: "关闭",
   copyLink: "复制链接",
+  linkCopied: "已复制",
 };

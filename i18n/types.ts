@@ -22,4 +22,5 @@ export type I18nText = {
   youCanShareLink: string;
   close: string;
   copyLink: string;
+  linkCopied: string;
 };

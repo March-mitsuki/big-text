@@ -1,5 +1,6 @@
 import type { Config } from "vike/types";
 import vikeReact from "vike-react/config";
+import vikeCloudflare from "vike-cloudflare/config";
 import Layout from "../layouts/LayoutDefault.js";
 import { metadataEN } from "../i18n/locales/en.js";
 
@@ -17,5 +18,5 @@ export default {
   // https://vike.dev/pre-rendering
   prerender: true,
 
-  extends: vikeReact,
+  extends: [vikeReact, vikeCloudflare],
 } satisfies Config;

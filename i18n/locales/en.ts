@@ -23,4 +23,5 @@ export const textEN: I18nText = {
   youCanShareLink: "You can share the link below to let others open the same page",
   close: "Close",
   copyLink: "Copy Link",
+  linkCopied: "Link Copied",
 };
