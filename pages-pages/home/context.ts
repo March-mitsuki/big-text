@@ -1,9 +1,6 @@
 import { create } from "zustand";
 
 export type BigTextStore = {
-  mode: "edit" | "view";
-  setMode: (mode: "edit" | "view") => void;
-
   text: string;
   setText: (text: string) => void;
 
@@ -18,19 +15,19 @@ export type BigTextStore = {
 
   scrollSpeed: number; // pixels per second
   setScrollSpeed: (scrollSpeed: number) => void;
+
+  staticViewFontSize: number;
+  setStaticViewFontSize: (fontSize: number) => void;
 };
 
 export const useBigTextStore = create<BigTextStore>((set) => ({
-  mode: "edit",
-  setMode: (mode) => set({ mode }),
-
   text: "Edit me and click Display to see the result!",
   setText: (text) => set({ text }),
 
-  bgColor: "#0f0f0f",
+  bgColor: "black",
   setBgColor: (bgColor) => set({ bgColor }),
 
-  textColor: "#f1f1f1",
+  textColor: "white",
   setTextColor: (textColor) => set({ textColor }),
 
   viewType: "scroll",
@@ -38,6 +35,9 @@ export const useBigTextStore = create<BigTextStore>((set) => ({
 
   scrollSpeed: 200,
   setScrollSpeed: (scrollSpeed) => set({ scrollSpeed }),
+
+  staticViewFontSize: 100,
+  setStaticViewFontSize: (fontSize) => set({ staticViewFontSize: fontSize }),
 }));
 
 function saveState(state: BigTextStore) {
@@ -65,12 +65,13 @@ export function loadState() {
   const bgColor = params.get("bgColor");
   const textColor = params.get("textColor");
   const viewType = params.get("viewType") === "static" ? "static" : "scroll";
-  const scrollSpeed = parseInt(params.get("scrollSpeed") || "200", 10) || 200;
+  const scrollSpeed = parseInt(params.get("scrollSpeed") || "200", 10);
 
-  const state = useBigTextStore.getState();
-  if (text) state.setText(text);
-  if (bgColor) state.setBgColor(bgColor);
-  if (textColor) state.setTextColor(textColor);
-  if (viewType) state.setViewType(viewType);
-  if (scrollSpeed) state.setScrollSpeed(scrollSpeed);
+  useBigTextStore.setState((state) => ({
+    text: text || state.text,
+    bgColor: bgColor || state.bgColor,
+    textColor: textColor || state.textColor,
+    viewType: viewType || state.viewType,
+    scrollSpeed: scrollSpeed || state.scrollSpeed,
+  }));
 }

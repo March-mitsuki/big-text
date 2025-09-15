@@ -1,0 +1,62 @@
+/* ===== 基础主题变量 ===== */
+:root {
+  --cp-size: 30px; /* 颜色圆点尺寸 */
+  --cp-border-radius: 6px;
+  --cp-radius: 4px; /* 颜色圆圆角 */
+  --cp-bg: transparent;
+  --cp-bg-hover: var(--slate-6);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cp-bg: #0b0b0b;
+  }
+}
+
+/* ===== 现代 color 输入样式 ===== */
+.color-picker {
+  /* 去除各家默认外观 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  inline-size: var(--cp-size);
+  block-size: var(--cp-size);
+  padding: 4px;
+  border: none;
+  border-radius: var(--cp-border-radius);
+  background: var(--cp-bg);
+
+  cursor: pointer;
+  transition: background-color 200ms cubic-bezier(0.23, 1, 0.32, 1);
+  vertical-align: middle; /* 与文字对齐更自然 */
+}
+
+/* WebKit 内核：包裹与色块本体 */
+.color-picker::-webkit-color-swatch-wrapper {
+  padding: 0; /* 去默认内边距 */
+  border-radius: var(--cp-radius);
+}
+.color-picker::-webkit-color-swatch {
+  border: none; /* 去默认边框 */
+  border-radius: var(--cp-radius); /* 圆形 */
+}
+
+/* Firefox：色块本体 */
+.color-picker::-moz-color-swatch {
+  border: none;
+  border-radius: var(--cp-radius);
+}
+
+/* 可访问焦点态（键盘导航时显著可见） */
+.color-picker:focus-visible {
+  background-color: var(--cp-bg-hover);
+}
+
+/* 禁用态 */
+.color-picker:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(0.3);
+  transform: none;
+}

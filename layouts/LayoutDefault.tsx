@@ -5,7 +5,7 @@ import { Theme } from "@radix-ui/themes";
 
 export default function LayoutDefault({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider>
+    <ThemeProvider attribute="class">
       <Theme>{children}</Theme>
     </ThemeProvider>
   );

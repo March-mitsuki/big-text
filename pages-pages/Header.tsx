@@ -1,6 +1,7 @@
 import { DropdownMenu, Flex, IconButton, Text } from "@radix-ui/themes";
 import { Link } from "../components/Link";
 import { trans } from "../i18n";
+import { ColorModeSwitch } from "../components/ColorModeSwitch";
 
 export type HeaderProps = {
   locale: string;
@@ -13,9 +14,13 @@ export function Header({ locale }: HeaderProps) {
       top="0"
       width="100%"
       p="2"
+      align="center"
       style={{ backdropFilter: "blur(10px)", boxShadow: "0 2px 4px var(--slate-a6)" }}
     >
       <div style={{ flex: 1 }} />
+      <Flex mr="2">
+        <ColorModeSwitch />
+      </Flex>
       <I18nMenu />
 
       <Flex
@@ -54,13 +59,13 @@ function I18nMenu() {
         </IconButton>
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
-        <Link href="/">
+        <Link href="/" appendCurrentSearch>
           <DropdownMenu.Item>English</DropdownMenu.Item>
         </Link>
-        <Link href="/zh">
+        <Link href="/zh" appendCurrentSearch>
           <DropdownMenu.Item>中文</DropdownMenu.Item>
         </Link>
-        <Link href="/ja">
+        <Link href="/ja" appendCurrentSearch>
           <DropdownMenu.Item>日本語</DropdownMenu.Item>
         </Link>
       </DropdownMenu.Content>

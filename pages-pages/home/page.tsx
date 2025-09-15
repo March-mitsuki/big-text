@@ -1,38 +1,32 @@
-import { Box, Flex, Spinner, Text } from "@radix-ui/themes";
+import { Box } from "@radix-ui/themes";
 import { Editor } from "./Editor";
 import { Header } from "../Header";
-import { loadState, useBigTextStore } from "./context";
-import { View } from "./View";
-import { useEffect, useState } from "react";
+import { loadState } from "./context";
+import { useEffect, useRef } from "react";
+import { bigTextCanvas } from "./canvas";
 
 export type HomePageProps = {
   locale: string;
 };
 export default function HomePage({ locale }: HomePageProps) {
-  const mode = useBigTextStore((state) => state.mode);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    if (!canvasRef.current) {
+      return;
+    }
     loadState();
+    bigTextCanvas.init(canvasRef.current);
+    bigTextCanvas.fitCanvasSize();
   }, []);
-
-  if (mode === "edit") {
-    return (
-      <main>
-        <Header locale={locale} />
-        <Box style={{ padding: "64px var(--space-4) var(--space-4) var(--space-4)" }}>
-          <Editor locale={locale} />
-        </Box>
-      </main>
-    );
-  }
-
-  if (mode === "view") {
-    return <View />;
-  }
 
   return (
     <main>
-      <Text color="red">ERROR: Invalid mode</Text>
+      <canvas ref={canvasRef} id="big-text-canvas" hidden />
+      <Header locale={locale} />
+      <Box style={{ padding: "64px var(--space-4) var(--space-4) var(--space-4)" }}>
+        <Editor locale={locale} />
+      </Box>
     </main>
   );
 }
