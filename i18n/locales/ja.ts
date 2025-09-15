@@ -12,4 +12,15 @@ export const textJA: I18nText = {
   text: "テキスト",
   bgColor: "背景色",
   textColor: "テキスト色",
+  scrollSpeed: "スクロール速度",
+  scrollView: "スクロール",
+  staticView: "静的",
+  shareUrl: "URLをシェアー",
+  render: "始める",
+  clickRenderToStart: "【始める】ボタンをクリックしてレンダリングを開始します",
+  youCanFullscreenVideoToShow:
+    "結果は動画としてリアルタイムにレンダリングされます。フルスクリーンにして他の人に見せましょう！",
+  youCanShareLink: "下のリンクを共有して、他の人に同じページを開いてもらうことができます",
+  close: "閉じる",
+  copyLink: "リンクをコピー",
 };

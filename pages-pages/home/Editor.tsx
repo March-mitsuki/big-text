@@ -1,8 +1,9 @@
-import { Button, Flex, SegmentedControl, Text, TextArea, TextField } from "@radix-ui/themes";
+import { Button, Dialog, Flex, SegmentedControl, Text, TextArea, TextField } from "@radix-ui/themes";
 import { useBigTextStore } from "./context";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { bigTextCanvas } from "./canvas";
 import { waitUntil } from "../../utils/wait";
+import { trans } from "../../i18n";
 
 export type EditorProps = {
   locale: string;
@@ -39,17 +40,17 @@ export function Editor({ locale }: EditorProps) {
       </Flex>
 
       <Flex direction="column" align="center" justify="center" my="6" style={{ textAlign: "center" }}>
-        <Text>点击下方【渲染】按钮开始渲染结果</Text>
-        <Text>结果会以实时视频形式展示, 你可以全屏视频来在任何设备上全屏展示给别人看</Text>
+        <Text>{trans("clickRenderToStart", locale)}</Text>
+        <Text>{trans("youCanFullscreenVideoToShow", locale)}</Text>
       </Flex>
 
       <Flex align="center" justify="center" mb="6">
         <SegmentedControl.Root value={ctx.viewType}>
           <SegmentedControl.Item value="scroll" onClick={() => ctx.setViewType("scroll")}>
-            Scroll
+            {trans("scrollView", locale)}
           </SegmentedControl.Item>
           <SegmentedControl.Item value="static" onClick={() => ctx.setViewType("static")}>
-            Static
+            {trans("staticView", locale)}
           </SegmentedControl.Item>
         </SegmentedControl.Root>
       </Flex>
@@ -62,8 +63,8 @@ export function Editor({ locale }: EditorProps) {
           md: "64px",
         }}
       >
-        {ctx.viewType === "scroll" && <ScrollViewEditor />}
-        {ctx.viewType === "static" && <StaticViewEditor />}
+        {ctx.viewType === "scroll" && <ScrollViewEditor locale={locale} />}
+        {ctx.viewType === "static" && <StaticViewEditor locale={locale} />}
       </Flex>
 
       <Flex
@@ -82,15 +83,7 @@ export function Editor({ locale }: EditorProps) {
           flexWrap: "wrap",
         }}
       >
-        <Button
-          onClick={() => {
-            navigator.clipboard.writeText(window.location.href);
-          }}
-          color="gray"
-          variant="soft"
-        >
-          Share URL
-        </Button>
+        <ShareBtn locale={locale} />
         <Button
           onClick={() => {
             displayVideoRef.current!.controls = true;
@@ -98,33 +91,78 @@ export function Editor({ locale }: EditorProps) {
             render();
           }}
         >
-          Render
+          {trans("render", locale)}
         </Button>
       </Flex>
     </>
   );
 }
 
-function CommonEditorFields() {
+function ShareBtn({ locale }: EditorProps) {
+  const [currentUrl, setCurrentUrl] = useState("");
+
+  useEffect(() => {
+    setCurrentUrl(window.location.href);
+  }, []);
+
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger>
+        <Button color="gray" variant="soft">
+          {trans("shareUrl", locale)}
+        </Button>
+      </Dialog.Trigger>
+
+      <Dialog.Content maxWidth="calc(100vw - 2rem)" width="420px">
+        <Dialog.Title>{trans("shareUrl", locale)}</Dialog.Title>
+        <Dialog.Description size="2" mb="4">
+          {trans("youCanShareLink", locale)}
+        </Dialog.Description>
+
+        <Text
+          as="div"
+          color="gray"
+          size="2"
+          style={{ wordBreak: "break-all", borderLeft: "4px solid var(--gray-6)", paddingLeft: "8px" }}
+        >
+          {currentUrl}
+        </Text>
+
+        <Flex gap="3" mt="4" justify="end">
+          <Dialog.Close>
+            <Button variant="soft" color="gray">
+              {trans("close", locale)}
+            </Button>
+          </Dialog.Close>
+          <Dialog.Close>
+            <Button>{trans("copyLink", locale)}</Button>
+          </Dialog.Close>
+        </Flex>
+      </Dialog.Content>
+    </Dialog.Root>
+  );
+}
+
+function CommonEditorFields({ locale }: EditorProps) {
   const ctx = useBigTextStore();
 
   return (
     <>
-      <ColorField label="Background Color" value={ctx.bgColor} onChange={ctx.setBgColor} />
-      <ColorField label="Text Color" value={ctx.textColor} onChange={ctx.setTextColor} />
+      <ColorField label={trans("bgColor", locale)} value={ctx.bgColor} onChange={ctx.setBgColor} />
+      <ColorField label={trans("textColor", locale)} value={ctx.textColor} onChange={ctx.setTextColor} />
     </>
   );
 }
 
-function ScrollViewEditor() {
+function ScrollViewEditor({ locale }: EditorProps) {
   const ctx = useBigTextStore();
 
   return (
     <>
-      <Field label="Text" value={ctx.text} onChange={ctx.setText} />
-      <CommonEditorFields />
+      <Field label={trans("text", locale)} value={ctx.text} onChange={ctx.setText} />
+      <CommonEditorFields locale={locale} />
       <Field
-        label="Scroll Speed"
+        label={trans("scrollSpeed", locale)}
         value={ctx.scrollSpeed.toString()}
         onChange={(v) => ctx.setScrollSpeed(Number(v) || 100)}
         selectOnFocus
@@ -133,13 +171,13 @@ function ScrollViewEditor() {
   );
 }
 
-function StaticViewEditor() {
+function StaticViewEditor({ locale }: EditorProps) {
   const ctx = useBigTextStore();
 
   return (
     <>
-      <Field label="Text" value={ctx.text} onChange={ctx.setText} />
-      <CommonEditorFields />
+      <Field label={trans("text", locale)} value={ctx.text} onChange={ctx.setText} />
+      <CommonEditorFields locale={locale} />
     </>
   );
 }

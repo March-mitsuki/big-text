@@ -21,13 +21,13 @@ export type BigTextStore = {
 };
 
 export const useBigTextStore = create<BigTextStore>((set) => ({
-  text: "Edit me and click Display to see the result!",
+  text: "Hello, 世界！",
   setText: (text) => set({ text }),
 
-  bgColor: "black",
+  bgColor: "#000000",
   setBgColor: (bgColor) => set({ bgColor }),
 
-  textColor: "white",
+  textColor: "#ffffff",
   setTextColor: (textColor) => set({ textColor }),
 
   viewType: "scroll",

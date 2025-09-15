@@ -12,4 +12,15 @@ export const textEN: I18nText = {
   text: "Text",
   bgColor: "Background Color",
   textColor: "Text Color",
+  scrollSpeed: "Scroll Speed",
+  scrollView: "Scroll",
+  staticView: "Static",
+  shareUrl: "Share URL",
+  render: "Render",
+  clickRenderToStart: "Click the【Render】button below to start rendering",
+  youCanFullscreenVideoToShow:
+    "The result will be presented as a live video, and you can fullscreen the video to show it to others on any device.",
+  youCanShareLink: "You can share the link below to let others open the same page",
+  close: "Close",
+  copyLink: "Copy Link",
 };

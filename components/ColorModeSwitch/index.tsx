@@ -7,7 +7,7 @@ export function ColorModeSwitch() {
   return (
     <label className="switch">
       <input
-        checked={theme === "light"}
+        checked={theme !== "dark"}
         id="checkbox"
         type="checkbox"
         onChange={() => setTheme(theme === "dark" ? "light" : "dark")}

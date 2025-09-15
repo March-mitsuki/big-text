@@ -12,4 +12,14 @@ export type I18nText = {
   text: string;
   textColor: string;
   bgColor: string;
+  scrollSpeed: string;
+  scrollView: string;
+  staticView: string;
+  shareUrl: string;
+  render: string;
+  clickRenderToStart: string;
+  youCanFullscreenVideoToShow: string;
+  youCanShareLink: string;
+  close: string;
+  copyLink: string;
 };
