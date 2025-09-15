@@ -2,5 +2,15 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "compatibility_date": "2025-09-15",
   "name": "big-text",
-  "pages_build_output_dir": "./dist/cloudflare",
+  "main": "./dist/cloudflare/_worker.js",
+  "assets": {
+    "directory": "./dist/client",
+  },
+  "workers_dev": false,
+  "routes": [
+    {
+      "pattern": "mitsuki.app",
+      "custom_domain": true,
+    },
+  ],
 }

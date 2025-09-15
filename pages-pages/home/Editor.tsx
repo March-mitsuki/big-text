@@ -104,7 +104,10 @@ function ShareBtn({ locale }: EditorProps) {
   const [isLinkCopied, setIsLinkCopied] = useState(false);
 
   useEffect(() => {
-    setCurrentUrl(window.location.href);
+    const loop = setInterval(() => {
+      setCurrentUrl(window.location.href);
+    }, 500);
+    return () => clearInterval(loop);
   }, []);
 
   return (
