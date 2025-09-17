@@ -4,6 +4,7 @@ type DrawingState = {
   text: string;
   bgColor: string;
   textColor: string;
+  fontSize: string; // "auto" | number in px
   scrollSpeed: number; // pixels per second
   staticViewFontSize: number;
 };
@@ -46,7 +47,10 @@ class BigTextCanvas {
     if (!this.canvas || !this.ctx) throw new Error("Canvas not initialized");
 
     this.state = state;
-    this.ctx.font = this.font(this.calcSingleLineFontSizeToFitHeight());
+    this.ctx.font =
+      state.fontSize === "auto"
+        ? this.font(this.calcSingleLineFontSizeToFitHeight())
+        : this.font(parseInt(state.fontSize.replace("px", "")));
     this.ctx.textBaseline = "middle";
     this._scrollX = this.canvas.width;
     this._viewType = "scroll";
@@ -56,7 +60,8 @@ class BigTextCanvas {
     if (!this.canvas || !this.ctx) throw new Error("Canvas not initialized");
 
     this.state = state;
-    this._staticFontSize = this.calcStaticFontSizeToFitBox();
+    this._staticFontSize =
+      state.fontSize === "auto" ? this.calcStaticFontSizeToFitBox() : parseInt(state.fontSize.replace("px", ""));
     this._viewType = "static";
   }
 

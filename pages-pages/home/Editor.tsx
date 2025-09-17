@@ -1,10 +1,11 @@
-import { Button, Dialog, Flex, SegmentedControl, Text, TextArea, TextField } from "@radix-ui/themes";
+import { Box, Button, Dialog, Flex, SegmentedControl, Text, TextArea, TextField } from "@radix-ui/themes";
 import { useBigTextStore } from "./context";
 import { useEffect, useRef, useState } from "react";
 import { bigTextCanvas } from "./canvas";
 import { waitUntil } from "../../utils/wait";
 import { trans } from "../../i18n";
 import { CheckCircledIcon } from "@radix-ui/react-icons";
+import { HoverTooltip } from "../../components/HoverTooltip";
 
 export type EditorProps = {
   locale: string;
@@ -169,8 +170,15 @@ function CommonEditorFields({ locale }: EditorProps) {
 
   return (
     <>
+      <Field label={trans("text", locale)} value={ctx.text} onChange={ctx.setText} />
       <ColorField label={trans("bgColor", locale)} value={ctx.bgColor} onChange={ctx.setBgColor} />
       <ColorField label={trans("textColor", locale)} value={ctx.textColor} onChange={ctx.setTextColor} />
+      <Field
+        label={trans("fontSize", locale)}
+        value={ctx.fontSize}
+        onChange={ctx.setFontSize}
+        tip={trans("fontSizeTip", locale)}
+      />
     </>
   );
 }
@@ -180,7 +188,6 @@ function ScrollViewEditor({ locale }: EditorProps) {
 
   return (
     <>
-      <Field label={trans("text", locale)} value={ctx.text} onChange={ctx.setText} />
       <CommonEditorFields locale={locale} />
       <Field
         label={trans("scrollSpeed", locale)}
@@ -193,11 +200,8 @@ function ScrollViewEditor({ locale }: EditorProps) {
 }
 
 function StaticViewEditor({ locale }: EditorProps) {
-  const ctx = useBigTextStore();
-
   return (
     <>
-      <Field label={trans("text", locale)} value={ctx.text} onChange={ctx.setText} />
       <CommonEditorFields locale={locale} />
     </>
   );
@@ -207,14 +211,18 @@ type FieldProps = {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  tip?: string;
   selectOnFocus?: boolean;
   textarea?: boolean;
 };
-function Field({ label, value, onChange, selectOnFocus, textarea }: FieldProps) {
+function Field({ label, value, onChange, tip, selectOnFocus, textarea }: FieldProps) {
   return (
     <Flex direction="column" gap="1" asChild>
       <label>
-        <Text>{label}</Text>
+        <Flex gap="1" align="center">
+          <Text>{label}</Text>
+          {tip && <HoverTooltip content={<Box style={{ whiteSpace: "pre-wrap" }}>{tip}</Box>} />}
+        </Flex>
         {textarea ? (
           <TextArea
             value={value}
@@ -241,7 +249,7 @@ function Field({ label, value, onChange, selectOnFocus, textarea }: FieldProps) 
   );
 }
 
-function ColorField({ label, value, onChange }: FieldProps) {
+function ColorField({ label, value, onChange }: Omit<FieldProps, "textarea" | "selectOnFocus">) {
   return (
     <Flex direction="column" gap="1">
       <Text>{label}</Text>

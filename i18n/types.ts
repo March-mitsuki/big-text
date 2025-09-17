@@ -10,8 +10,10 @@ export type I18nMetadata = {
 export type I18nText = {
   bigText: string;
   text: string;
-  textColor: string;
   bgColor: string;
+  textColor: string;
+  fontSize: string;
+  fontSizeTip: string;
   scrollSpeed: string;
   scrollView: string;
   staticView: string;

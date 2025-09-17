@@ -2,6 +2,7 @@ import { DropdownMenu, Flex, IconButton, Text } from "@radix-ui/themes";
 import { Link } from "../components/Link";
 import { trans } from "../i18n";
 import { ColorModeSwitch } from "../components/ColorModeSwitch";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 export type HeaderProps = {
   locale: string;
@@ -21,8 +22,14 @@ export function Header({ locale }: HeaderProps) {
       <Flex mr="2">
         <ColorModeSwitch />
       </Flex>
+      <a href="https://github.com/March-Mitsuki/big-text" target="_blank" rel="noopener noreferrer">
+        <IconButton variant="soft" mr="2" color="gray">
+          <GitHubLogoIcon />
+        </IconButton>
+      </a>
       <I18nMenu />
 
+      {/* Centered Title */}
       <Flex
         gap="2"
         style={{

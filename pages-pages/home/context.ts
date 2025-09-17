@@ -10,6 +10,10 @@ export type BigTextStore = {
   textColor: string;
   setTextColor: (textColor: string) => void;
 
+  // "auto" | number in px
+  fontSize: string;
+  setFontSize: (fontSize: string) => void;
+
   viewType: "scroll" | "static";
   setViewType: (viewType: "scroll" | "static") => void;
 
@@ -29,6 +33,9 @@ export const useBigTextStore = create<BigTextStore>((set) => ({
 
   textColor: "#ffffff",
   setTextColor: (textColor) => set({ textColor }),
+
+  fontSize: "auto",
+  setFontSize: (fontSize) => set({ fontSize }),
 
   viewType: "scroll",
   setViewType: (viewType) => set({ viewType }),

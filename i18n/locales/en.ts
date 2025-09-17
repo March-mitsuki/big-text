@@ -2,7 +2,7 @@ import { I18nMetadata, I18nText } from "../types";
 
 export const metadataEN: I18nMetadata = {
   "/": {
-    title: "Big Text | Build by Mitsuki-March",
+    title: "Big Text - Display Fullscreen Scrolling Text | Build by Mitsuki-March",
     description: "Display big text on your screen with custom styles.",
   },
 };
@@ -12,6 +12,9 @@ export const textEN: I18nText = {
   text: "Text",
   bgColor: "Background Color",
   textColor: "Text Color",
+  fontSize: "Font Size",
+  fontSizeTip:
+    'Set the font size in pixels (e.g., "100px") or use "auto" to let the app decide based on your screen size.',
   scrollSpeed: "Scroll Speed",
   scrollView: "Scroll",
   staticView: "Static",
